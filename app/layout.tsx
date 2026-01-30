@@ -1,15 +1,15 @@
 import React from "react"
-import type { Metadata } from 'next'
-import { Geist, Geist_Mono } from 'next/font/google'
+import type { Metadata, Viewport } from 'next'
+import { Inter, Geist_Mono } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import './globals.css'
 
-const _geist = Geist({ subsets: ["latin"] });
+const _inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const _geistMono = Geist_Mono({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: 'NZR Speed Shop | Sparepart Motor Premium Indonesia',
-  description: 'Sparepart motor premium berkualitas tinggi untuk rider sejati. Brembo, Probolt, RCB, dan brand terbaik lainnya. Garansi resmi, pengiriman cepat ke seluruh Indonesia.',
+  title: 'NZR Admin | Speed Shop Dashboard',
+  description: 'Panel admin untuk manajemen toko online sparepart motor NZR Speed Shop',
   generator: 'v0.app',
   icons: {
     icon: [
@@ -30,13 +30,18 @@ export const metadata: Metadata = {
   },
 }
 
+export const viewport: Viewport = {
+  themeColor: '#0f0f14',
+  colorScheme: 'dark',
+}
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
   return (
-    <html lang="id">
+    <html lang="id" className="dark">
       <body className={`font-sans antialiased`}>
         {children}
         <Analytics />

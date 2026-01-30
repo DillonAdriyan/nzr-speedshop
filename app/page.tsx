@@ -1,104 +1,78 @@
-import { Navbar } from "@/components/navbar"
-import { HeroSection } from "@/components/hero-section"
-import { ProductGrid } from "@/components/product-grid"
-import { CartProvider } from "@/lib/cart-context"
+import { AdminSidebar } from '@/components/admin/admin-sidebar';
+import { AdminTopbar } from '@/components/admin/admin-topbar';
+import { MetricCard } from '@/components/admin/metric-card';
+import { RevenueChart } from '@/components/admin/revenue-chart';
+import { CategoryChart } from '@/components/admin/category-chart';
+import { RecentOrdersTable } from '@/components/admin/recent-orders-table';
+import { dashboardMetrics, formatRupiah, getLowStockProducts } from '@/lib/data';
+import { Wallet, ShoppingCart, Package, AlertTriangle } from 'lucide-react';
 
-export default function Home() {
+export default function DashboardPage() {
+  const lowStockCount = getLowStockProducts().length;
+
   return (
-    <CartProvider>
-      <div className="min-h-screen bg-background">
-        <Navbar />
-        <main>
-          <HeroSection />
-          <ProductGrid />
+    <div className="flex min-h-screen bg-background">
+      <AdminSidebar />
+      <div className="flex-1 flex flex-col lg:ml-0">
+        <AdminTopbar
+          breadcrumbs={[
+            { label: 'NZR Admin' },
+            { label: 'Dashboard' },
+          ]}
+        />
+        <main className="flex-1 p-6 overflow-auto">
+          {/* Page Header */}
+          <div className="mb-6">
+            <h1 className="text-2xl font-bold text-foreground">Dashboard</h1>
+            <p className="text-sm text-muted-foreground mt-1">
+              Selamat datang kembali! Berikut ringkasan performa toko Anda.
+            </p>
+          </div>
+
+          {/* Metric Cards */}
+          <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 mb-6">
+            <MetricCard
+              title="Total Pendapatan"
+              value={formatRupiah(dashboardMetrics.totalRevenue)}
+              change="+15% dari bulan lalu"
+              changeType="positive"
+              icon={Wallet}
+            />
+            <MetricCard
+              title="Pesanan Baru"
+              value={`${dashboardMetrics.newOrders} Order`}
+              change="+5%"
+              changeType="positive"
+              icon={ShoppingCart}
+            />
+            <MetricCard
+              title="Produk Terjual"
+              value={`${dashboardMetrics.productsSold} Pcs`}
+              icon={Package}
+            />
+            <MetricCard
+              title="Stok Menipis"
+              value={`${lowStockCount} Item`}
+              change="Perlu Restock"
+              changeType="negative"
+              icon={AlertTriangle}
+            />
+          </div>
+
+          {/* Charts Section */}
+          <div className="grid gap-6 lg:grid-cols-3 mb-6">
+            <div className="lg:col-span-2">
+              <RevenueChart />
+            </div>
+            <div className="lg:col-span-1">
+              <CategoryChart />
+            </div>
+          </div>
+
+          {/* Recent Orders Table */}
+          <RecentOrdersTable />
         </main>
-        <Footer />
       </div>
-    </CartProvider>
-  )
-}
-
-function Footer() {
-  return (
-    <footer className="border-t border-border bg-card">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="py-12 md:py-16">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            <div className="col-span-2 md:col-span-1">
-              <a href="/" className="text-xl font-semibold tracking-tight text-foreground">
-                STORE
-              </a>
-              <p className="mt-4 text-sm text-muted-foreground leading-relaxed">
-                Curated collections of premium products for the modern lifestyle.
-              </p>
-            </div>
-            <div>
-              <h3 className="text-sm font-semibold text-foreground uppercase tracking-wide">
-                Shop
-              </h3>
-              <ul className="mt-4 space-y-3">
-                {["New Arrivals", "Electronics", "Fashion", "Accessories"].map((item) => (
-                  <li key={item}>
-                    <a
-                      href="#"
-                      className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-                    >
-                      {item}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div>
-              <h3 className="text-sm font-semibold text-foreground uppercase tracking-wide">
-                Company
-              </h3>
-              <ul className="mt-4 space-y-3">
-                {["About Us", "Careers", "Press", "Blog"].map((item) => (
-                  <li key={item}>
-                    <a
-                      href="#"
-                      className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-                    >
-                      {item}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div>
-              <h3 className="text-sm font-semibold text-foreground uppercase tracking-wide">
-                Support
-              </h3>
-              <ul className="mt-4 space-y-3">
-                {["Contact", "FAQ", "Shipping", "Returns"].map((item) => (
-                  <li key={item}>
-                    <a
-                      href="#"
-                      className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-                    >
-                      {item}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </div>
-        <div className="border-t border-border py-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-xs text-muted-foreground">
-            &copy; 2026 STORE. All rights reserved.
-          </p>
-          <div className="flex items-center gap-6">
-            <a href="#" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
-              Privacy Policy
-            </a>
-            <a href="#" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
-              Terms of Service
-            </a>
-          </div>
-        </div>
-      </div>
-    </footer>
-  )
+    </div>
+  );
 }
