@@ -1,15 +1,15 @@
 import React from "react"
 import type { Metadata } from 'next'
-import { Geist, Geist_Mono } from 'next/font/google'
+import { Inter, Geist_Mono } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import './globals.css'
 
-const _geist = Geist({ subsets: ["latin"] });
+const _inter = Inter({ subsets: ["latin"], weight: ["400", "500", "600", "700", "800", "900"] });
 const _geistMono = Geist_Mono({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: 'NZR Speed Shop | Sparepart Motor Premium Indonesia',
-  description: 'Sparepart motor premium berkualitas tinggi untuk rider sejati. Brembo, Probolt, RCB, dan brand terbaik lainnya. Garansi resmi, pengiriman cepat ke seluruh Indonesia.',
+  title: 'NZR Speed Shop - Pusat Sparepart & Aksesoris Motor',
+  description: 'Pusat sparepart dan aksesoris motor terlengkap di Indonesia. Produk original, pengiriman seluruh Indonesia, konsultasi gratis.',
   generator: 'v0.app',
   icons: {
     icon: [
